@@ -11,8 +11,8 @@ This directory contains configuration and migration files for integrating with S
 
 2. Configure your environment variables in `.env.local`:
    ```
-   DATABASE_HOST=qewjnagvsbnwgamrrrwg.supabase.co
-   DATABASE_PORT=6543
+   DATABASE_HOST=db.qewjnagvsbnwgamrrrwg.supabase.co
+   DATABASE_PORT=5432
    DATABASE_NAME=postgres
    DATABASE_USERNAME=postgres
    DATABASE_PASSWORD=your_password

@@ -9,6 +9,17 @@ source .env.local
 
 echo "Starting database migration to Supabase..."
 
+# Проверка подключения к Supabase
+echo "Testing connection to Supabase..."
+PGPASSWORD=${DATABASE_PASSWORD} psql \
+  -h ${DATABASE_HOST} \
+  -p ${DATABASE_PORT} \
+  -U ${DATABASE_USERNAME} \
+  -d ${DATABASE_NAME} \
+  -c "SELECT version();" || { echo "Cannot connect to Supabase. Please check your connection settings."; exit 1; }
+
+echo "Connection to Supabase successful."
+
 # Экспорт схемы и данных из локальной базы
 echo "Exporting schema and data from local database..."
 
