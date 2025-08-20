@@ -1,0 +1,14 @@
+base_locale: en
+locales: [en, uk]
+
+search:
+  paths:
+    - app/
+    - config/
+    - lib/
+  include:
+    - '**/*.rb'
+    - '**/*.erb'
+    - '**/*.haml'
+  exclude:
+    - 'node_modules/**'

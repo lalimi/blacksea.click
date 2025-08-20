@@ -1,0 +1,63 @@
+---
+uk:
+  error_500: Помилка 500
+  errors:
+    email_confirmation_required: "Ви повинні підтвердити свою електронну адресу, перш ніж зможете це зробити."
+    messages:
+      pwned_password: "цей пароль був скомпрометований у витоках даних і не може бути використаний"
+  payments:
+    fee_info:
+      card: "Усі продажі підлягають комісіям залежно від того, як клієнти знайшли ваш товар:\n\n• Прямі продажі: %{direct_fee_percent}% + %{fixed_fee_cents}¢ комісія Gumroad + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ комісія кредитної картки.\n• Продажі через Відкриття: %{discover_fee_percent}% фіксовано\n"
+      card_brazil: "Усі продажі підлягають комісіям залежно від того, як клієнти знайшли ваш товар:\n\n• Прямі продажі: %{direct_fee_percent}% + %{fixed_fee_cents}¢ комісія Gumroad + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ комісія кредитної картки.\n• Продажі через Відкриття: %{discover_fee_percent}% фіксовано\n"
+      connect_account: "Усі продажі підлягають комісіям залежно від того, як клієнти знайшли ваш товар:\n\n• Прямі продажі: %{direct_fee_percent}% + %{fixed_fee_cents}¢\n• Продажі через Відкриття: %{discover_fee_percent}% фіксовано\n"
+      connect_account_brazil: "Усі продажі підлягають 0% комісії Gumroad."
+      paypal: "Усі продажі підлягають комісіям залежно від того, як клієнти знайшли ваш товар:\n\n• Прямі продажі: %{direct_fee_percent}% + %{fixed_fee_cents}¢ комісія Gumroad + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ комісія PayPal.\n• Продажі через Відкриття: %{discover_fee_percent}% фіксовано\n"
+      paypal_brazil: "Усі продажі підлягають комісіям залежно від того, як клієнти знайшли ваш товар:\n\n• Прямі продажі: %{direct_fee_percent}% + %{fixed_fee_cents}¢ комісія Gumroad + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ комісія PayPal.\n• Продажі через Відкриття: %{discover_fee_percent}% фіксовано\n"
+  "Subscribe to get tips and tactics to grow the way you want.": "Підпішіться, щоб отримувати поради та тактики для зростання так, як ви хочете."
+  "Subscribe to get tips and tactics to grow the way you want": "Підпішіться, щоб отримувати поради та тактики для зростання так, як ви хочете."
+  "Your email address": "Ваша адреса електронної пошти"
+  "Blacksea icon": "Іконка Blacksea"
+  "Ⓒ Blacksea, Inc.": "Ⓒ Blacksea, Inc."
+  "Ⓒ Blacksea, Inc": "Ⓒ Blacksea, Inc."
+  "Discover": "Відкриття"
+  "Blog": "Блог"
+  "Pricing": "Ціни"
+  "Features": "Функції"
+  "About": "Про нас"
+  "Small Bets": "Малі ставки"
+  "Help": "Допомога"
+  "Board meetings": "Засідання ради"
+  "Terms of Service": "Умови обслуговування"
+  "Privacy Policy": "Політика конфіденційності"
+  number:
+    currency:
+      format:
+        delimiter: " "
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: ₴
+    format:
+      delimiter: " "
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    nth:
+      ordinalized:
+        one: "%{number}-й"
+        few: "%{number}-й"
+        many: "%{number}-й"
+        other: "%{number}-й"
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  activerecord:
+    errors:
+      messages:
+        pwned_password: "цей пароль був скомпрометований у витоках даних і не може бути використаний"

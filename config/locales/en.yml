@@ -1,0 +1,13 @@
+---
+en:
+  error_500: Error 500
+  errors:
+    email_confirmation_required: "You have to confirm your email address before you can do that."
+  payments:
+    fee_info:
+      card: "All sales will incur fees based on how customers find your product:\n\n• Direct sales: %{direct_fee_percent}% + %{fixed_fee_cents}¢ Gumroad fee + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ credit card fee.\n• Discover sales: %{discover_fee_percent}% flat\n"
+      card_brazil: "All sales will incur fees based on how customers find your product:\n\n• Direct sales: %{direct_fee_percent}% + %{fixed_fee_cents}¢ Gumroad fee + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ credit card fee.\n• Discover sales: %{discover_fee_percent}% flat\n"
+      connect_account: "All sales will incur fees based on how customers find your product:\n\n• Direct sales: %{direct_fee_percent}% + %{fixed_fee_cents}¢\n• Discover sales: %{discover_fee_percent}% flat\n"
+      connect_account_brazil: "All sales will incur a 0% Gumroad fee."
+      paypal: "All sales will incur fees based on how customers find your product:\n\n• Direct sales: %{direct_fee_percent}% + %{fixed_fee_cents}¢ Gumroad fee + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ PayPal fee.\n• Discover sales: %{discover_fee_percent}% flat\n"
+      paypal_brazil: "All sales will incur fees based on how customers find your product:\n\n• Direct sales: %{direct_fee_percent}% + %{fixed_fee_cents}¢ Gumroad fee + %{processor_fee_percent}% + %{processor_fee_fixed_cents}¢ PayPal fee.\n• Discover sales: %{discover_fee_percent}% flat\n"

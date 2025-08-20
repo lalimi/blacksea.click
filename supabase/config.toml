@@ -1,0 +1,17 @@
+# The config defines the Postgres schema that should be used for this project.
+# Note: You must set this value for the project to work in Supabase Studio.
+schema = "public"
+
+# Support multiple environments using a single database connection.
+# See https://supabase.com/docs/guides/cli/managing-environments
+[environments]
+production = "DATABASE_URL"
+development = "DATABASE_URL_DEVELOPMENT"
+
+[hooks]
+pre_commit = "npm run format"
+
+[auth]
+# The URLs required for the Auth flow.
+# If they don't exist, Supabase Auth will help you create them.
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]
