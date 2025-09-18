@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 if Rails.env.staging? || Rails.env.production?
-  REVISION = ENV.fetch("REVISION")
+  REVISION = ENV.fetch("REVISION", GlobalConfig.get("REVISION_DEFAULT", "no-revision"))
 else
   REVISION = GlobalConfig.get("REVISION_DEFAULT", "no-revision")
 end
