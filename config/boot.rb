@@ -11,7 +11,7 @@ require "bootsnap/setup" # Speed up boot time by caching expensive operations.
 # Load environment variables
 require "dotenv/load"
 # Explicitly load production environment file if it exists
-Dotenv.load(".env.production") if Rails.env.production? && File.exist?(".env.production")
+Dotenv.load(".env.production") if ENV["RAILS_ENV"] == "production" && File.exist?(".env.production")
 
 # silence warning "You can remove `require ‘dalli/cas/client’` as this code has been rolled into the standard ‘dalli/client’."
 # TODO remove this when `suo` is updated
