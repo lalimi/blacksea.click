@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Rails production commands with environment variables
+# Usage: ./bin/rails_prod_with_env db:migrate
+# Usage: ./bin/rails_prod_with_env assets:precompile
+# Usage: ./bin/rails_prod_with_env server
+
+# Load environment variables
+source ./bin/setup_env
+
+# Run the Rails command with arguments
+exec ./bin/rails "$@"
