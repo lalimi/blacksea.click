@@ -12,10 +12,7 @@ require_relative "../lib/catch_bad_request_errors"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-if Rails.env.development? || Rails.env.test?
-  require 'dotenv/rails'
-  Dotenv::Railtie.load
-end
+# Dotenv is loaded in config/boot.rb for development/test environments
 
 require_relative "domain"
 require_relative "redis"
