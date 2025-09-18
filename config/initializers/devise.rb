@@ -265,22 +265,22 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  config.omniauth :facebook,
-                  FACEBOOK_APP_ID,
-                  FACEBOOK_APP_SECRET,
-                  scope: "email,pages_manage_ads,pages_manage_metadata,pages_read_engagement,pages_read_user_content",
-                  info_fields: "name,email,verified,gender,link",
-                  client_options: {
-                    site: "https://graph.facebook.com/#{FACEBOOK_API_VERSION}",
-                    authorize_url: "https://www.facebook.com/#{FACEBOOK_API_VERSION}/dialog/oauth"
-                  },
-                  token_params: {
-                    parse: :json
-                  }
+  # config.omniauth :facebook,
+  #                 FACEBOOK_APP_ID,
+  #                 FACEBOOK_APP_SECRET,
+  #                 scope: "email,pages_manage_ads,pages_manage_metadata,pages_read_engagement,pages_read_user_content",
+  #                 info_fields: "name,email,verified,gender,link",
+  #                 client_options: {
+  #                   site: "https://graph.facebook.com/#{FACEBOOK_API_VERSION}",
+  #                   authorize_url: "https://www.facebook.com/#{FACEBOOK_API_VERSION}/dialog/oauth"
+  #                 },
+  #                 token_params: {
+  #                   parse: :json
+  #                 }
 
-  config.omniauth :twitter,
-                  TWITTER_APP_ID,
-                  TWITTER_APP_SECRET
+  # config.omniauth :twitter,
+  #                 TWITTER_APP_ID,
+  #                 TWITTER_APP_SECRET
 
   # config.omniauth :stripe_connect,
   #                STRIPE_CONNECT_CLIENT_ID,
