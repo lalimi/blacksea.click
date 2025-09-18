@@ -282,10 +282,10 @@ Devise.setup do |config|
                   TWITTER_APP_ID,
                   TWITTER_APP_SECRET
 
-  config.omniauth :stripe_connect,
-                  STRIPE_CONNECT_CLIENT_ID,
-                  STRIPE_SECRET,
-                  scope: "read_write"
+  # config.omniauth :stripe_connect,
+  #                STRIPE_CONNECT_CLIENT_ID,
+  #                STRIPE_SECRET,
+  #                scope: "read_write"
 
   config.omniauth :google_oauth2,
                   GOOGLE_CLIENT_ID,
