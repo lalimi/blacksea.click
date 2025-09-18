@@ -13,7 +13,6 @@ require_relative "../lib/catch_bad_request_errors"
 Bundler.require(*Rails.groups)
 
 if Rails.env.development? || Rails.env.test?
-  require "dotenv/rails-now"
   Dotenv::Railtie.load
 end
 
