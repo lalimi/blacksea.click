@@ -7,12 +7,6 @@ ruby file: ".ruby-version"
 gem "rails", "7.1.3.4"
 gem "rake", "13.2.1"
 
-group :staging, :production do
-  source "https://gems.contribsys.com/" do
-    gem "sidekiq-pro", "~> 7.2"
-  end
-end
-
 group :development, :test do
   gem "bundler"
   gem "dotenv-rails", "~> 2.8"
@@ -28,6 +22,7 @@ group :development, :test do
   gem "shoulda-matchers", "~> 6.0"
   gem "spring", "~> 4.0"
   gem "spring-commands-rspec", "~> 1.0"
+  gem "i18n-tasks", "~> 1.0"
 end
 
 group :test do
@@ -61,7 +56,7 @@ end
 gem "acme-client", "~> 2.0"
 gem "actionpack-action_caching", "~> 1.2"
 gem "actionpack-cloudflare", "~> 1.1", group: %i[staging production] # Verify that this works after upgrading the Rails gem version
-gem "activerecord-mysql-index-hint", "~> 0.0"
+# MySQL-specific gem removed for PostgreSQL migration
 gem "active_model_otp", "~> 2.3"
 gem "after_commit_everywhere", "~> 1.3"
 gem "active_hash", "~> 3.3"
@@ -126,14 +121,12 @@ gem "mime-types", "~> 3.4"
 gem "mini_racer", "0.16.0"
 gem "money", "~> 6.16"
 gem "mongoid", "~> 9.0"
-gem "mysql2", ">= 0.5.6"
+gem "pg", "~> 1.1"
 gem "nokogiri", "~> 1.13"
 gem "omniauth-facebook", "~> 10.0"
 gem "omniauth-google-oauth2", "~> 1.1", ">= 1.1.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
-# Update to a normal release once https://github.com/isaacsanders/omniauth-stripe-connect/issues/67 is fixed
-gem "omniauth-stripe-connect", github: "isaacsanders/omniauth-stripe-connect", ref: "468dd9acaccdbba38a38cdbcdf7f10c17be25e89"
-gem "omniauth-twitter", "~> 1.4"
+# X (Twitter) and Stripe integrations removed for MVP
 gem "paper_trail", "~> 15.0"
 gem "paypal-sdk-merchant", "~> 1.117"
 gem "paypal-checkout-sdk", "~> 1.0"
@@ -169,9 +162,9 @@ gem "secure_headers", "~> 6.5"
 gem "selenium-webdriver", "~> 4.7"
 gem "sendgrid-ruby", "~> 6.6"
 gem "shakapacker", "~> 8.0"
+gem "sidekiq", "~> 7.2"
 gem "sidekiq-cron", "~> 1.9"
 gem "suo", "~> 0.4"
-gem "sidekiq", "~> 7.2"
 gem "sidekiq-unique-jobs", "~> 8.0"
 gem "sitemap_generator", "~> 6.3"
 gem "slack-notifier", "~> 2.4"
@@ -200,4 +193,5 @@ gem "psych", "~> 5.2.3"
 group :development do
   gem "derailed_benchmarks", "~> 2.1"
   gem "bullet"
+  gem "foreman"
 end
