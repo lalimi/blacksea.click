@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Rack::Attack
-  redis_url    = ENV.fetch("RACK_ATTACK_REDIS_HOST")
+  redis_url    = ENV.fetch("RACK_ATTACK_REDIS_HOST", "127.0.0.1:6379")
   redis_client = Redis.new(url: "redis://#{redis_url}")
   Rack::Attack.cache.store = Rack::Attack::StoreProxy::RedisStoreProxy.new(redis_client)
 
