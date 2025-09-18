@@ -12,7 +12,7 @@ group :development, :test do
   gem "dotenv-rails", "~> 2.8"
   gem "knapsack_pro", "~> 7.0"
   gem "pry-byebug", "~> 3.10"
-  gem "pry-rails", "~> 0.3", require: "pry-rails/console"
+  gem "pry-rails", "~> 0.3"
   gem "rubocop", "~> 1.65.0", require: false
   gem "rubocop-rspec", "~> 3.0.0", require: false
   gem "rubocop-performance", "~> 1.21.0", require: false
