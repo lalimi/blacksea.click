@@ -7,7 +7,11 @@ ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
 
 require "bundler/setup" # Set up gems listed in the Gemfile.
 require "bootsnap/setup" # Speed up boot time by caching expensive operations.
+
+# Load environment variables
 require "dotenv/load"
+# Explicitly load production environment file if it exists
+Dotenv.load(".env.production") if Rails.env.production? && File.exist?(".env.production")
 
 # silence warning "You can remove `require ‘dalli/cas/client’` as this code has been rolled into the standard ‘dalli/client’."
 # TODO remove this when `suo` is updated
