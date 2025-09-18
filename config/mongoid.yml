@@ -2,8 +2,8 @@ development:
   clients:
     default:
       hosts:
-        - <%= ENV.fetch("MONGO_DATABASE_URL") %>
-      database: <%= ENV.fetch("MONGO_DATABASE_NAME") %>
+        - <%= ENV.fetch("MONGO_DATABASE_URL", "localhost:27017") %>
+      database: <%= ENV.fetch("MONGO_DATABASE_NAME", "gumroad_development") %>
   options:
     use_utc: true
     raise_not_found_error: false
@@ -12,8 +12,8 @@ test:
   clients:
     default:
       hosts:
-        - <%= ENV.fetch("MONGO_DATABASE_URL") %>
-      database: <%= ENV.fetch("MONGO_DATABASE_NAME") %>
+        - <%= ENV.fetch("MONGO_DATABASE_URL", "localhost:27017") %>
+      database: <%= ENV.fetch("MONGO_DATABASE_NAME", "gumroad_test") %>
   options:
     use_utc: true
     raise_not_found_error: false
@@ -22,11 +22,11 @@ staging:
   clients:
     default:
       hosts:
-        - <%= ENV.fetch("MONGO_DATABASE_URL") %>
-      database: <%= ENV.fetch("MONGO_DATABASE_NAME") %>
+        - <%= ENV.fetch("MONGO_DATABASE_URL", "localhost:27017") %>
+      database: <%= ENV.fetch("MONGO_DATABASE_NAME", "gumroad_staging") %>
       options:
-        user: <%= ENV.fetch("MONGO_DATABASE_USERNAME") %>
-        password: <%= ENV.fetch("MONGO_DATABASE_PASSWORD") %>
+        user: <%= ENV.fetch("MONGO_DATABASE_USERNAME", "") %>
+        password: <%= ENV.fetch("MONGO_DATABASE_PASSWORD", "") %>
         replica_set: <%= ENV["MONGO_REPLICA_SET"] %>
   options:
     use_utc: true
@@ -36,11 +36,11 @@ production:
   clients:
     default:
       hosts:
-        - <%= ENV.fetch("MONGO_DATABASE_URL") %>
-      database: <%= ENV.fetch("MONGO_DATABASE_NAME") %>
+        - <%= ENV.fetch("MONGO_DATABASE_URL", "localhost:27017") %>
+      database: <%= ENV.fetch("MONGO_DATABASE_NAME", "gumroad_production") %>
       options:
-        user: <%= ENV.fetch("MONGO_DATABASE_USERNAME") %>
-        password: <%= ENV.fetch("MONGO_DATABASE_PASSWORD") %>
+        user: <%= ENV.fetch("MONGO_DATABASE_USERNAME", "") %>
+        password: <%= ENV.fetch("MONGO_DATABASE_PASSWORD", "") %>
         replica_set: <%= ENV["MONGO_REPLICA_SET"] %>
   options:
     use_utc: true
