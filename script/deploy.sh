@@ -12,6 +12,14 @@ APP_DIR="/var/www/$APP_NAME"
 BACKUP_DIR="/var/backups/$APP_NAME"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
+# Determine deployment user
+if [[ $EUID -eq 0 ]]; then
+    # Running as root, use a deployment user or current user
+    DEPLOY_USER=${DEPLOY_USER:-www-data}
+else
+    DEPLOY_USER=${USER:-$(whoami)}
+fi
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -34,10 +42,11 @@ warn() {
 pre_deployment_checks() {
     log "Running pre-deployment checks..."
 
-    # Check if running as root or with sudo
+    # Check if running as root - allow but warn
     if [[ $EUID -eq 0 ]]; then
-        error "This script should not be run as root"
-        exit 1
+        warn "Running as root - this is allowed but not recommended for security"
+        warn "Consider creating a deployment user with sudo privileges"
+        sleep 2
     fi
 
     # Check required commands
@@ -86,7 +95,7 @@ deploy_app() {
 
     # Create application directory
     sudo mkdir -p "$APP_DIR"
-    sudo chown -R $USER:$USER "$APP_DIR"
+    sudo chown -R $DEPLOY_USER:$DEPLOY_USER "$APP_DIR"
 
     # Copy application files
     log "Copying application files..."
@@ -134,7 +143,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=$USER
+User=$DEPLOY_USER
 WorkingDirectory=$APP_DIR
 Environment=RAILS_ENV=production
 Environment=PORT=3000
@@ -154,7 +163,7 @@ After=network.target redis-server.service
 
 [Service]
 Type=simple
-User=$USER
+User=$DEPLOY_USER
 WorkingDirectory=$APP_DIR
 Environment=RAILS_ENV=production
 ExecStart=/usr/local/bin/bundle exec sidekiq
@@ -264,7 +273,7 @@ rollback() {
         cd /var/www
         sudo rm -rf "$APP_NAME"
         sudo tar -xzf "$BACKUP_DIR/app_$TIMESTAMP.tar.gz"
-        sudo chown -R $USER:$USER "$APP_NAME"
+        sudo chown -R $DEPLOY_USER:$DEPLOY_USER "$APP_NAME"
     fi
 
     # Restart services
