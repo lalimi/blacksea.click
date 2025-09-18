@@ -72,7 +72,7 @@ createdb blacksea_production
 
 ```bash
 # Клонирование репозитория
-git clone <repository-url> blacksea
+git clone https://github.com/lalimi/blacksea.click.git blacksea
 cd blacksea
 
 # Установка Ruby зависимостей
@@ -86,6 +86,59 @@ npm install
 # Настройка переменных окружения
 cp .env.production.example .env.production
 nano .env.production  # Отредактируйте с реальными значениями
+```
+
+#### Настройка переменных окружения
+
+**Обязательные переменные для запуска:**
+
+```bash
+# Сгенерировать Rails master key
+RAILS_MASTER_KEY=$(rails secret)
+
+# Сгенерировать secret key base
+SECRET_KEY_BASE=$(rails secret)
+
+# Сгенерировать devise secret key
+DEVISE_SECRET_KEY=$(rails secret)
+
+# Настроить базу данных (уже заполнено для Supabase)
+DATABASE_URL=postgresql://postgres.qewjnagvsbnwgamrrrwg:tuXru2-tadjin-wizrox@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres
+
+# Настроить Redis (локально)
+REDIS_URL=redis://localhost:6379/0
+SIDEKIQ_REDIS_HOST=redis://localhost:6379/1
+
+# Настроить email (Resend)
+RESEND_API_KEY=your-resend-api-key-here
+RESEND_DEFAULT_API_KEY=your-resend-api-key-here
+```
+
+**Пример полного .env.production файла:**
+```bash
+# Rails Configuration
+RAILS_ENV=production
+RAILS_MASTER_KEY=your-generated-master-key-here
+SECRET_KEY_BASE=your-generated-secret-key-base-here
+DEVISE_SECRET_KEY=your-generated-devise-key-here
+
+# Domain Configuration
+DOMAIN=blacksea.click
+PROTOCOL=https
+
+# Database Configuration (Supabase)
+DATABASE_URL=postgresql://postgres.qewjnagvsbnwgamrrrwg:tuXru2-tadjin-wizrox@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379/0
+SIDEKIQ_REDIS_HOST=redis://localhost:6379/1
+
+# Email Configuration (Resend)
+RESEND_API_KEY=your-resend-api-key-here
+RESEND_DEFAULT_API_KEY=your-resend-api-key-here
+
+# Deployment
+DEPLOY_USER=www-data
 ```
 
 ### 4. Настройка SSL сертификатов
