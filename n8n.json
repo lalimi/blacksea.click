@@ -1,0 +1,280 @@
+{
+    "nodes": [
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e5418df7-e7ba-4b7f-b822-a07877fc9e82",
+                "leftValue": "={{ $('Telegram Trigger (Start)').item.json.body.message.text }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          128,
+          -96
+        ],
+        "id": "8373d497-e1c8-492d-afff-228d9d9d0fa5",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "ff5fb338-7205-4c11-a333-19648d90da04",
+                "name": "chat_id",
+                "value": "={{ $json.body.message.chat.id }}",
+                "type": "string"
+              },
+              {
+                "id": "ed0b15b4-1165-40c1-a936-41930f28a8f4",
+                "name": "callback_query_id_chat",
+                "value": "={{ $json.body.callback_query.from.id }}",
+                "type": "string"
+              },
+              {
+                "id": "5287c18d-bc7a-432b-97ee-b0e0d59af844",
+                "name": "hello_message_id",
+                "value": "={{ $json.body.callback_query.message.message_id }}",
+                "type": "string"
+              },
+              {
+                "id": "ace032b6-1bf4-44be-aa20-ad73e220c1b4",
+                "name": "message_id",
+                "value": "={{ $json.body.message.message_id }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -48,
+          -96
+        ],
+        "id": "007a11fc-52e0-4620-8da4-7d1d79d25173",
+        "name": "chat_id"
+      },
+      {
+        "parameters": {
+          "operation": "deleteMessage",
+          "chatId": "={{ $('chat_id').item.json.callback_query_id_chat }}",
+          "messageId": "={{ $('chat_id').item.json.hello_message_id }} "
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          336,
+          -256
+        ],
+        "id": "ea374a5f-fbdb-4eeb-a14b-85c9b709da0a",
+        "name": "Delete a chat message",
+        "webhookId": "2a7fd54f-c0cd-43ae-be1d-61fa8a51a381",
+        "credentials": {
+          "telegramApi": {
+            "id": "0HfvVJJMA5M6dlqL",
+            "name": "by_lali_astrovedic_bot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "236377a7-b190-48ee-ba3f-cb08f6795871",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -256,
+          -96
+        ],
+        "id": "b1354f86-b055-47d6-8581-bdd2e0f5262a",
+        "name": "Telegram Trigger (Start)",
+        "webhookId": "236377a7-b190-48ee-ba3f-cb08f6795871"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $json.chat_id }}",
+          "text": "=Приветствую вас в личном пространстве ведической астрологии! ✨\nЯ — ваш внимательный проводник по Джйотиш: помогу понять сильные стороны, кармические уроки и выбрать лучшие окна для действий. Здесь вы получите не «общие фразы», а аккуратно собранный разбор вашей карты с практическими рекомендациями: от ежедневных подсказок до стратегий на месяц, полгода и год.\n\nЧто вы получите:\n\nЛичностный портрет: сильные стороны, таланты, точки роста 🌿\n\nТекущие влияния: даши и ключевые транзиты ближайших месяцев 🔭\n\nПрактические шаги: фокус‑планы, ритуалы, мантры, «окна возможностей» ✅\n\nТематические направления: отношения, карьера/деньги, здоровье/ритмы ❤️💼\n\nФорматы работы:\n\nБазовый разбор — фундамент + план на 30 дней 📄\n\nПлюс — разбор + подписка с ежедневными/недельными/месячными рекомендациями 📆\n\nПро — всё из Плюс + полугодовая/годовая стратегия и дорожные карты Любовь/Карьера 🌟\n\nГотовы начать? ▶️",
+          "replyMarkup": "inlineKeyboard",
+          "inlineKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Начать ✨ ",
+                      "additionalFields": {
+                        "callback_data": "callback_data_start"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          320,
+          96
+        ],
+        "id": "d615d244-a3f0-4d5a-8163-deb7267c293d",
+        "name": "send welcome message",
+        "webhookId": "c026ad98-c638-4665-9745-b44561507121",
+        "credentials": {
+          "telegramApi": {
+            "id": "0HfvVJJMA5M6dlqL",
+            "name": "by_lali_astrovedic_bot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('chat_id').item.json.callback_query_id_chat }}",
+          "text": "✨ Приветствую вас в мире ведической астрологии! ✨\n\nДля того чтобы подготовить для вас персональный астрологический разбор, пожалуйста, отправьте Ваши данные в формате:\n\n📝 ФИО:\n📅 Дата рождения (ДД-ММ-ГГГГ):\n⏰ Время рождения (ЧЧ:ММ, 24-часовой формат):\n🌍 Город, страна:\n🎯 Цель запроса (карьера / отношения / здоровье / общее):\n\n⚠️ Важно: Указывайте точное время и место, чтобы анализ был максимально точным.\nЕсли точное время неизвестно — напишите «примерно» или «не знаю».\n\nКогда будете готовы — просто отправьте данные, и я начну готовить ваш уникальный астрологический прогноз! 🌟",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          544,
+          -256
+        ],
+        "id": "2b695360-5fcc-4c05-8212-b3d69dbda5a1",
+        "name": "Send Message: “запрос на разбор”",
+        "webhookId": "17a223ff-d111-42fe-98a9-a088cc6c6bb1",
+        "credentials": {
+          "telegramApi": {
+            "id": "0HfvVJJMA5M6dlqL",
+            "name": "by_lali_astrovedic_bot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "schema": {
+            "__rl": true,
+            "mode": "list",
+            "value": "public"
+          },
+          "table": {
+            "__rl": true,
+            "mode": "list",
+            "value": ""
+          }
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          752,
+          -256
+        ],
+        "id": "4705b6a9-fb51-4b52-9c34-14dc381f112a",
+        "name": "Select rows from a table",
+        "credentials": {
+          "postgres": {
+            "id": "HM2jZFjXHbdkgoyB",
+            "name": "Postgres account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Delete a chat message",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "send welcome message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "chat_id": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Delete a chat message": {
+        "main": [
+          [
+            {
+              "node": "Send Message: “запрос на разбор”",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Trigger (Start)": {
+        "main": [
+          [
+            {
+              "node": "chat_id",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send Message: “запрос на разбор”": {
+        "main": [
+          [
+            {
+              "node": "Select rows from a table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "pinData": {},
+    "meta": {
+      "templateCredsSetupCompleted": true,
+      "instanceId": "f932b2153e233db549d37dd18463702190e7860f22f628862f80af00ce084c32"
+    }
+  }

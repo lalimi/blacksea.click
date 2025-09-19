@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackSea Real-time Мониторинг</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+        .header h1 { 
+            color: #2c3e50; 
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .status { 
+            display: inline-block; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+        .status.connecting { background: #fff3cd; color: #856404; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label { 
+            color: #666; 
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .users .stat-number { color: #3498db; }
+        .products .stat-number { color: #e74c3c; }
+        .affiliates .stat-number { color: #f39c12; }
+        .events .stat-number { color: #9b59b6; }
+        
+        .activity-feed {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .feed-title { 
+            font-size: 1.3em; 
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .activity-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            animation: fadeIn 0.5s ease;
+        }
+        .activity-item.new-user { 
+            background: #e8f5ff; 
+            border-color: #3498db; 
+        }
+        .activity-item.new-product { 
+            background: #ffebee; 
+            border-color: #e74c3c; 
+        }
+        .activity-item.new-affiliate { 
+            background: #fff8e1; 
+            border-color: #f39c12; 
+        }
+        .activity-time {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .activity-content {
+            font-weight: 500;
+        }
+        .activity-details {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { 
+            background: #ff90e9; 
+            transform: translateY(-2px);
+        }
+        .btn:disabled { 
+            background: #bdc3c7; 
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 BlackSea Real-time Дашборд</h1>
+            <div class="status connecting" id="connectionStatus">🔄 Підключення...</div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="connectBtn" onclick="connect()">🔗 Підключитися</button>
+            <button class="btn" id="disconnectBtn" onclick="disconnect()" disabled>⏹️ Відключитися</button>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card users">
+                <div class="stat-number" id="userCount">-</div>
+                <div class="stat-label">Користувачі</div>
+            </div>
+            <div class="stat-card products">
+                <div class="stat-number" id="productCount">-</div>
+                <div class="stat-label">Продукти</div>
+            </div>
+            <div class="stat-card affiliates">
+                <div class="stat-number" id="affiliateCount">-</div>
+                <div class="stat-label">Афіліати</div>
+            </div>
+            <div class="stat-card events">
+                <div class="stat-number" id="eventCount">-</div>
+                <div class="stat-label">Події</div>
+            </div>
+        </div>
+        
+        <div class="activity-feed">
+            <div class="feed-header">
+                <h2 class="feed-title">📈 Активність в реальному часі</h2>
+                <button class="clear-btn" onclick="clearActivity()">🗑️ Очистити</button>
+            </div>
+            <div id="activityFeed">
+                <div class="activity-item" style="text-align: center; color: #666;">
+                    ⏳ Очікування активності...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Конфігурація Supabase
+        const supabaseUrl = 'https://qewjnagvsbnwgamrrrwg.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFld2puYWd2c2Jud2dhbXJycndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2OTYxMTUsImV4cCI6MjA3MTI3MjExNX0.cXxxoPv79s3SLV2N2KU0OqyzwRf3cLAJIjvjM2XqWxQ'
+        
+        let supabase = null;
+        let subscriptions = [];
+        
+        // Підключення до Supabase
+        async function connect() {
+            try {
+                updateStatus('connecting', '🔄 Підключення...');
+                
+                // Ініціалізація клієнта
+                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                
+                // Завантажуємо початкові дані
+                await loadInitialData();
+                
+                // Налаштовуємо real-time підписки
+                setupRealtimeSubscriptions();
+                
+                updateStatus('connected', '✅ Підключено');
+                document.getElementById('connectBtn').disabled = true;
+                document.getElementById('disconnectBtn').disabled = false;
+                
+                addActivity('system', '🎉 Real-time мониторинг запущено!', 'Система готова до відстеження змін');
+                
+            } catch (error) {
+                console.error('Помилка підключення:', error);
+                updateStatus('disconnected', '❌ Помилка підключення');
+                addActivity('system', '❌ Помилка підключення', error.message);
+            }
+        }
+        
+        // Відключення
+        function disconnect() {
+            if (supabase && subscriptions.length > 0) {
+                subscriptions.forEach(sub => {
+                    supabase.removeChannel(sub);
+                });
+                subscriptions = [];
+            }
+            
+            updateStatus('disconnected', '⏹️ Відключено');
+            document.getElementById('connectBtn').disabled = false;
+            document.getElementById('disconnectBtn').disabled = true;
+            
+            addActivity('system', '⏹️ Відключено від real-time моніторингу', '');
+        }
+        
+        // Завантаження початкових даних
+        async function loadInitialData() {
+            try {
+                const [users, products, affiliates, events] = await Promise.all([
+                    supabase.from('users').select('*', { count: 'exact' }),
+                    supabase.from('links').select('*', { count: 'exact' }),
+                    supabase.from('affiliates').select('*', { count: 'exact' }),
+                    supabase.from('events').select('*', { count: 'exact' })
+                ]);
+                
+                document.getElementById('userCount').textContent = users.count || 0;
+                document.getElementById('productCount').textContent = products.count || 0;
+                document.getElementById('affiliateCount').textContent = affiliates.count || 0;
+                document.getElementById('eventCount').textContent = events.count || 0;
+                
+            } catch (error) {
+                console.error('Помилка завантаження даних:', error);
+            }
+        }
+        
+        // Налаштування real-time підписок
+        function setupRealtimeSubscriptions() {
+            // Підписка на нових користувачів
+            const usersSub = supabase
+                .channel('users_changes')
+                .on('postgres_changes', 
+                    { event: 'INSERT', schema: 'public', table: 'users' },
+                    (payload) => handleNewUser(payload.new)
+                )
+                .subscribe();
+            
+            // Підписка на нові продукти
+            const productsSub = supabase
+                .channel('products_changes')
+                .on('postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'links' },
+                    (payload) => handleNewProduct(payload.new)
+                )
+                .subscribe();
+            
+            // Підписка на нових афіліатів
+            const affiliatesSub = supabase
+                .channel('affiliates_changes')
+                .on('postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'affiliates' },
+                    (payload) => handleNewAffiliate(payload.new)
+                )
+                .subscribe();
+            
+            subscriptions = [usersSub, productsSub, affiliatesSub];
+        }
+        
+        // Обробка нового користувача
+        function handleNewUser(user) {
+            updateCounter('userCount', 1);
+            addActivity('new-user', 
+                `👤 Новий користувач: ${user.name || user.email}`, 
+                `ID: ${user.id}, Email: ${user.email}, Створено: ${formatTime(user.created_at)}`
+            );
+        }
+        
+        // Обробка нового продукту
+        function handleNewProduct(product) {
+            updateCounter('productCount', 1);
+            addActivity('new-product', 
+                `🛍️ Новий продукт: ${product.name}`, 
+                `ID: ${product.id}, Permalink: ${product.unique_permalink}, Ціна: ${product.price_cents/100} ${product.price_currency_type}`
+            );
+        }
+        
+        // Обробка нового афіліата
+        function handleNewAffiliate(affiliate) {
+            updateCounter('affiliateCount', 1);
+            addActivity('new-affiliate', 
+                `💼 Новий афіліат: ID ${affiliate.id}`, 
+                `Користувач: ${affiliate.affiliate_user_id}, Тип: ${affiliate.type}, Комісія: ${affiliate.affiliate_basis_points/100}%`
+            );
+        }
+        
+        // Оновлення лічильника
+        function updateCounter(elementId, increment) {
+            const element = document.getElementById(elementId);
+            const current = parseInt(element.textContent) || 0;
+            element.textContent = current + increment;
+        }
+        
+        // Додавання активності
+        function addActivity(type, title, details) {
+            const feed = document.getElementById('activityFeed');
+            
+            // Очищаємо placeholder
+            if (feed.children.length === 1 && feed.children[0].textContent.includes('Очікування')) {
+                feed.innerHTML = '';
+            }
+            
+            const item = document.createElement('div');
+            item.className = `activity-item ${type}`;
+            item.innerHTML = `
+                <div class="activity-time">${new Date().toLocaleString('uk-UA')}</div>
+                <div class="activity-content">${title}</div>
+                ${details ? `<div class="activity-details">${details}</div>` : ''}
+            `;
+            
+            feed.insertBefore(item, feed.firstChild);
+            
+            // Обмежуємо кількість елементів
+            while (feed.children.length > 50) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+        
+        // Очистка активності
+        function clearActivity() {
+            document.getElementById('activityFeed').innerHTML = `
+                <div class="activity-item" style="text-align: center; color: #666;">
+                    ⏳ Очікування активності...
+                </div>
+            `;
+        }
+        
+        // Оновлення статусу підключення
+        function updateStatus(status, text) {
+            const element = document.getElementById('connectionStatus');
+            element.className = `status ${status}`;
+            element.textContent = text;
+        }
+        
+        // Форматування часу
+        function formatTime(timestamp) {
+            return new Date(timestamp).toLocaleString('uk-UA');
+        }
+        
+        // Автоматичне підключення при завантаженні сторінки
+        window.addEventListener('load', () => {
+            setTimeout(connect, 1000);
+        });
+    </script>
+</body>
+</html>

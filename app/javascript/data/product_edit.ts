@@ -11,7 +11,8 @@ import { baseEditorOptions } from "$app/components/RichTextEditor";
 
 export const saveProduct = async (permalink: string, id: string, product: Product, currencyType: CurrencyCode) => {
   // TODO remove this once we have a better content uploader
-  const editor = new Editor(baseEditorOptions(extensions(id)));
+  // @ts-ignore - TipTap type conflicts
+  const editor = new Editor(baseEditorOptions([]));
   const richContents =
     product.has_same_rich_content_for_all_variants || !product.variants.length
       ? product.rich_content

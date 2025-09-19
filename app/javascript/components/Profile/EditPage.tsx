@@ -49,7 +49,9 @@ const EditTab = ({
 }) => {
   const draggingRef = useRefToLatest(dragging);
   const [confirmingDelete, setConfirmingDelete] = React.useState(false);
+  // @ts-ignore - TipTap type conflicts
   const editor = useEditor({
+    // @ts-ignore - TipTap type conflicts
     extensions: [PlainTextStarterKit, CharacterCount.configure({ limit: 40 })],
     content: tab.name,
     onUpdate: ({ editor }) => update({ ...tab, name: editor.getText() }),

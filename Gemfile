@@ -60,7 +60,7 @@ gem "actionpack-cloudflare", "~> 1.1", group: %i[staging production] # Verify th
 gem "active_model_otp", "~> 2.3"
 gem "after_commit_everywhere", "~> 1.3"
 gem "active_hash", "~> 3.3"
-gem "alterity", "~> 1.4"
+# gem "alterity", "~> 1.4" # Disabled for PostgreSQL compatibility
 gem "ancestry", "~> 4.2"
 gem "apple_id", "~> 1.5"
 # AWS SDK Gems

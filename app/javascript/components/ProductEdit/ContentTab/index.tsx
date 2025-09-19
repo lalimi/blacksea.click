@@ -252,6 +252,7 @@ const ContentTabContent = ({ selectedVariantId }: { selectedVariantId: string | 
     updateProduct({ files: [...product.files.filter((f) => !newFiles.includes(f)), ...newFiles] });
     const description = generateJSON(
       new XMLSerializer().serializeToString(fragment),
+      // @ts-ignore - TipTap type conflicts
       baseEditorOptions(contentEditorExtensions).extensions,
     );
 

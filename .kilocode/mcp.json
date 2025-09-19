@@ -1,0 +1,87 @@
+{
+  "mcpServers": {
+    "elasticsearch": {
+      "command": "node",
+      "args": [
+        "/path/to/elasticsearch-mcp-server/build/index.js"
+      ],
+      "env": {
+        "ELASTICSEARCH_URL": "http://localhost:9200"
+      }
+    },
+    "payment-testing": {
+      "command": "node",
+      "args": [
+        "/path/to/payment-mcp-server/build/index.js"
+      ],
+      "env": {
+        "LIQPAY_SANDBOX": "true",
+        "FONDY_SANDBOX": "true"
+      }
+    },
+    "ukrainian-i18n": {
+      "command": "node",
+      "args": [
+        "/path/to/i18n-mcp-server/build/index.js"
+      ],
+      "env": {
+        "LOCALES_PATH": "/Users/lalitamirosnicenko/printnplay/gumroad/config/locales"
+      }
+    },
+    "rails-console": {
+      "command": "ruby",
+      "args": [
+        "/path/to/rails-mcp-server/bin/server.rb"
+      ],
+      "env": {
+        "RAILS_ENV": "development",
+        "BUNDLE_GEMFILE": "/Users/lalitamirosnicenko/printnplay/gumroad/Gemfile"
+      }
+    },
+    "git-repo": {
+      "command": "node",
+      "args": [
+        "/path/to/git-mcp-server/build/index.js"
+      ],
+      "env": {
+        "REPO_PATH": "/Users/lalitamirosnicenko/printnplay/gumroad"
+      }
+    },
+    "redis-cache": {
+      "command": "node",
+      "args": [
+        "/path/to/redis-mcp-server/build/index.js"
+      ],
+      "env": {
+        "REDIS_URL": "redis://localhost:6379/0"
+      }
+    },
+    "postgres-db": {
+      "command": "node",
+      "args": [
+        "/path/to/postgres-mcp-server/build/index.js"
+      ],
+      "env": {
+        "DATABASE_URL": "postgresql://postgres:password@localhost:5432/gumroad_development"
+      }
+    },
+    "redis": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-redis",
+        "--url",
+        "redis://localhost:6379/0"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "DEFAULT_MINIMUM_TOKENS": ""
+      }
+    }
+  }
+}

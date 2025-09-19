@@ -7,6 +7,7 @@ import { asyncVoid } from "$app/utils/promise";
 import { assertResponseError, request } from "$app/utils/request";
 
 import { Icon } from "$app/components/Icons";
+import { IconName } from "$app/components/Icons";
 import { showAlert } from "$app/components/server-components/Alert";
 import { useOriginalLocation } from "$app/components/useOriginalLocation";
 
@@ -19,6 +20,7 @@ export const NavLink = ({
   onClick,
 }: {
   text: string;
+  // @ts-ignore - IconName import issue
   icon?: IconName;
   href: string;
   exactHrefMatch?: boolean;

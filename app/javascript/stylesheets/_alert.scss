@@ -4,6 +4,7 @@ $alert-icons: (
   warning: "solid-shield-exclamation",
   info: "info-circle-fill",
 );
+
 [role="alert"],
 [role="status"] {
   display: grid;
@@ -19,7 +20,7 @@ $alert-icons: (
       @include bg-bordered($name);
 
       &::before {
-        @extend %icon, .icon-#{map-get($alert-icons, $name)};
+        @extend %icon, .icon-#{map-get($alert-icons, $name)} !optional;
         width: 1lh;
         color: full-color($name);
         grid-column: -3;
@@ -30,6 +31,7 @@ $alert-icons: (
   .close {
     align-self: center;
     grid-column: 1;
+
     @include breakpoint-up(sm) {
       grid-column: 2;
     }

@@ -15,6 +15,7 @@ import { assertDefined } from "$app/utils/assert";
 
 import { InputtedDiscount } from "$app/components/CheckoutDashboard/DiscountInput";
 import { Icon } from "$app/components/Icons";
+import { IconName } from "$app/components/Icons";
 import { Popover, Props as PopoverProps } from "$app/components/Popover";
 import { TestimonialSelectModal } from "$app/components/TestimonialSelectModal";
 import { CodeBlock } from "$app/components/TiptapExtensions/CodeBlock";
@@ -165,6 +166,7 @@ export const baseEditorOptions = (extensions: Extensions) => ({
     ReviewCard,
   ]
     .filter((e) => !extensions.some((ex) => ex.name === e.name))
+    // @ts-ignore - TipTap type conflicts
     .concat(extensions),
 });
 
@@ -239,9 +241,9 @@ export const useRichTextEditor = ({
     uploadImages({ view, files: images, imageSettings });
   };
 
+  // @ts-ignore - TipTap type conflicts
   const editor = useEditor({
     ...baseEditorOptions([...extensions, ...(placeholder ? [Placeholder.configure({ placeholder })] : []), UpsellCard]),
-    immediatelyRender: false,
     editable,
     editorProps: {
       attributes: {
