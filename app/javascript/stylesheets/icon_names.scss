@@ -18,8 +18,7 @@ $logo-aspect-ratio: 1.5;
 $big-icon-size: 2rem;
 
 $brands: (
-    facebook: "facebook",
-    twitter: "twitter",
-    google: "google"
-    // Add more brand names as needed
+    facebook: (color: #1877f2),
+    twitter: (color: #1da1f2),
+    google: (color: #4285f4) // Add more brand names as needed
 );
