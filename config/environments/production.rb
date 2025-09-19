@@ -5,6 +5,9 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Disable alterity for PostgreSQL compatibility
+  ENV['ALTERITY_ENABLED'] = 'false'
+
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
