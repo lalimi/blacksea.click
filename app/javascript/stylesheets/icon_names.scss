@@ -1,8 +1,25 @@
 // Icon names SCSS variables
 // This file provides SCSS variables for icon names used in the application
 
-$icon-names: (
-    // Add icon names as needed
-    default: "default",
-    // Add more icon mappings here
+$icons: (
+    "default",
+    "fonts",
+    "h1",
+    "h2",
+    "file-arrow-down",
+    "file-music",
+    "file-play",
+    "file-text",
+    "outline-key"
+    // Add more icon names as needed
+);
+
+$logo-aspect-ratio: 1.5;
+$big-icon-size: 2rem;
+
+$brands: (
+    facebook: "facebook",
+    twitter: "twitter",
+    google: "google"
+    // Add more brand names as needed
 );
