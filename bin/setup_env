@@ -6,6 +6,10 @@ export RAILS_ENV=production
 export SECRET_KEY_BASE="ce9c4660b724ba853044f8f3f11b7a232500fe8cce74b5df48262c01bfadf615dc2e2d3ca3a1e3009dc3e9d775814da4f16f00b4a56deb8a3ab16d47d599f2cf"
 export DEVISE_SECRET_KEY="94bcff96b3abdfb51dfeb77e45c28ed8f92045444c65bdc4ef0517e58903d743216a35c54108daf479bc6e8fddbc117519d1fd715ccf656ad1b3537943fff4"
 
+# Facebook OAuth via Supabase
+export FACEBOOK_APP_ID="749801654538399"
+export FACEBOOK_APP_SECRET="2a8f63399f846f5a6fdf51673d008f5f"
+
 echo "Environment variables set:"
 echo "DATABASE_URL: $DATABASE_URL"
 echo "RAILS_ENV: $RAILS_ENV"
