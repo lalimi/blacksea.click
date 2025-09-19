@@ -1,76 +1,58 @@
-# frozen_string_literal: true
+# Puma configuration file for BlackSea production
 
-# Puma can serve each request in a thread from an internal thread pool.
-# The `threads` method setting takes two numbers a minimum and maximum.
-# Any libraries that use thread pools should be configured to match
-# the maximum value specified for Puma. Default is set to 5 threads for minimum
-# and maximum, this matches the default thread size of Active Record.
-#
-# See unicorn migration guide: https://github.com/puma/puma/blob/master/docs/deployment.md#migrating-from-unicorn
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 2 }.to_i
+# The directory to operate out of.
+directory '/var/www/blacksea'
+
+# Use "path" as the file to store the server info state. This is
+# used by "pumactl" to query and control the server.
+state_path '/var/www/blacksea/tmp/pids/puma.state'
+
+# Redirect STDOUT and STDERR to files.
+stdout_redirect '/var/www/blacksea/log/puma.stdout.log', '/var/www/blacksea/log/puma.stderr.log', true
+
+# The minimum number of threads to use to answer requests.
+# The default is "0".
+threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 threads threads_count, threads_count
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 # terminating a worker in development environments.
-#
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
-# Specifies the `port` that Puma will listen on to receive requests, default is 3000.
-#
+# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 port ENV.fetch("PORT") { 3000 }
 
 # Specifies the `environment` that Puma will run in.
-#
-env = ENV.fetch("RAILS_ENV") { "development" }
-environment env
+environment ENV.fetch("RAILS_ENV") { "development" }
 
-if env != "development"
-  # Specifies the number of `workers` to boot in clustered mode.
-  # Workers are forked webserver processes. If using threads and workers together
-  # the concurrency of the application would be max `threads` * `workers`.
-  # Workers do not work on JRuby or Windows (both of which do not support
-  # processes).
-  #
-  # workers ENV.fetch("WEB_CONCURRENCY") { 2 }
-  workers ENV.fetch("PUMA_WORKER_PROCESSES") { 1 }
+# Specifies the `pidfile` that Puma will use.
+pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
-  # Use the `preload_app!` method when specifying a `workers` number.
-  # This directive tells Puma to first boot the application and load code
-  # before forking the application. This takes advantage of Copy On Write
-  # process behavior so workers use less memory. If you use this option
-  # you need to make sure to reconnect any threads in the `on_worker_boot`
-  # block.
-  #
-  preload_app!
+# Specifies the number of `workers` to boot in clustered mode.
+# Workers are forked web server processes. If using threads and workers together
+# the concurrency of the application would be max `threads` * `workers`.
+# Workers do not work on JRuby or Windows (both of which do not support
+# processes).
+workers ENV.fetch("WEB_CONCURRENCY") { ENV.fetch("PUMA_WORKER_PROCESSES") { 1 } }
 
-  # The code in the `on_worker_boot` will be called if you are using
-  # clustered mode by specifying a number of `workers`. After each worker
-  # process is booted this block will be run, if you are using `preload_app!`
-  # option you will want to use this block to reconnect to any threads
-  # or connections that may have been created at application boot, Ruby
-  # cannot share connections between processes.
-  #
-  on_worker_boot do
-    if defined?(ActiveRecord::Base)
-      ActiveRecord::Base.establish_connection
-      Makara::Context.release_all
-    end
-  end
-end
-
-pidfile "tmp/pids/puma.pid"
+# Use the `preload_app!` method when specifying a `workers` number.
+# This directive tells Puma to first boot the application and load code
+# before forking the application. This takes advantage of Copy On Write
+# process behavior so workers use less memory.
+preload_app!
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-#
-# Custom Config
-#
+# Bind to unix socket for nginx
+bind 'unix:///var/www/blacksea/tmp/sockets/puma.sock'
 
-root_config = {
-  development: File.expand_path("."),
-  staging: "/app/",
-  production: "/app/"
-}
-root_dir = ENV["PUMA_ROOT"] || root_config[env.to_sym]
-directory root_dir
+# Daemonize the server into the background. Highly suggest that
+# this be combined with "pidfile" and "stdout_redirect".
+daemonize false
+
+on_worker_boot do
+  # Worker specific setup for Rails 4.1+
+  # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
+  ActiveRecord::Base.establish_connection
+end

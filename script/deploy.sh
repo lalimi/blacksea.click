@@ -147,7 +147,7 @@ User=$DEPLOY_USER
 WorkingDirectory=$APP_DIR
 Environment=RAILS_ENV=production
 Environment=PORT=3000
-ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
+ExecStart=/home/$DEPLOY_USER/.rbenv/shims/bundle exec puma -C config/puma.rb
 Restart=always
 RestartSec=5
 
@@ -166,7 +166,7 @@ Type=simple
 User=$DEPLOY_USER
 WorkingDirectory=$APP_DIR
 Environment=RAILS_ENV=production
-ExecStart=/usr/local/bin/bundle exec sidekiq
+ExecStart=/home/$DEPLOY_USER/.rbenv/shims/bundle exec sidekiq
 Restart=always
 RestartSec=5
 
