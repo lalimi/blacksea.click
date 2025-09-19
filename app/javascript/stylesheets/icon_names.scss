@@ -13,6 +13,7 @@ $icons: (
     "outline-key",
     "outline-cheveron-right",
     "outline-cheveron-down",
+    "solid-check-circle",
     "chevron-right",
     "chevron-left",
     "chevron-down",
@@ -33,6 +34,14 @@ $icons: (
     "help",
     "logout"
     // Add more icon names as needed
+);
+
+$alert-icons: (
+    success: "solid-check-circle",
+    error: "close",
+    warning: "outline-key",
+    info: "user"
+    // Add more alert icon mappings as needed
 );
 
 $logo-aspect-ratio: 1.5;
