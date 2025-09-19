@@ -187,7 +187,7 @@ const config = {
   plugins: [
     webpackAssetsManifestPlugin,
     miniCssExtractPlugin,
-    new webpack.ProvidePlugin({ Routes: path.join("..", "..", "utils", "routes") }),
+    new webpack.ProvidePlugin({ Routes: path.join("..", "utils", "routes") }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         configFile: path.join(rootPath, "tsconfig.json"),
