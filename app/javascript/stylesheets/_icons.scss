@@ -1,3 +1,6 @@
+// Import icon names to ensure $icons variable is available
+@import "./icon_names.scss";
+
 // Use a partial selector here to allow for selecting .icon without it generating CSS for the _many_ usages that extend this.
 %icon {
   content: "\00a0";

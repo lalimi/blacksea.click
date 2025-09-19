@@ -13,13 +13,13 @@
   }
 
   &::after {
-    @extend %icon, .icon-arrow-diagonal-up-right;
+    @extend %icon, .icon-arrow-diagonal-up-right !optional;
     font-size: $big-icon-size;
     grid-column: -1;
   }
 }
 
-.big-links > a {
+.big-links>a {
   @extend %big-link;
   border-bottom: $border;
 

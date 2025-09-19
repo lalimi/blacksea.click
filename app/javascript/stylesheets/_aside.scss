@@ -18,7 +18,7 @@ aside {
     width: 40vw;
   }
 
-  & > header {
+  &>header {
     display: flex;
     justify-content: space-between;
     gap: spacer(4);
@@ -30,8 +30,9 @@ aside {
 
   .close {
     margin-left: auto;
+
     &::after {
-      @extend %icon, .icon-x;
+      @extend %icon, .icon-x !optional;
     }
   }
 }
@@ -53,8 +54,9 @@ aside {
     }
 
     &.sidebar-nav {
+
       header.sticky-top,
-      main > header {
+      main>header {
         padding-right: $body-padding-desktop;
       }
     }

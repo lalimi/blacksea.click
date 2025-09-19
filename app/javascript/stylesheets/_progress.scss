@@ -27,6 +27,7 @@
     border: $border;
     border-radius: 50%;
     background: none;
+
     &:not([aria-valuenow="100"])::before {
       content: "";
       padding-bottom: 100%;
@@ -41,23 +42,20 @@
       --min-progress-25: min(var(--progress), 0.25);
       --min-progress-50: min(var(--progress), 0.5);
       --min-progress-75: min(var(--progress), 0.75);
-      clip-path: polygon(
-        50% 50%,
-        0 0,
-        calc(min(var(--progress), 0.25) * 400%) 0,
-        calc(min(var(--progress), 0.25) * 400%) calc((max(0.25, var(--min-progress-50)) - 0.25) * 400%),
-        calc(min(var(--progress), 0.25) * 400% - (max(0.5, var(--min-progress-75)) - 0.5) * 400%)
-          calc((max(0.25, var(--min-progress-50)) - 0.25) * 400%),
-        calc(var(--min-progress-25) * 400% - (max(0.5, var(--min-progress-75)) - 0.5) * 400%)
-          calc((max(0.25, var(--min-progress-50)) - 0.25) * 400% - (max(0.75, var(--progress)) - 0.75) * 400%)
-      );
+      clip-path: polygon(50% 50%,
+          0 0,
+          calc(min(var(--progress), 0.25) * 400%) 0,
+          calc(min(var(--progress), 0.25) * 400%) calc((max(0.25, var(--min-progress-50)) - 0.25) * 400%),
+          calc(min(var(--progress), 0.25) * 400% - (max(0.5, var(--min-progress-75)) - 0.5) * 400%) calc((max(0.25, var(--min-progress-50)) - 0.25) * 400%),
+          calc(var(--min-progress-25) * 400% - (max(0.5, var(--min-progress-75)) - 0.5) * 400%) calc((max(0.25, var(--min-progress-50)) - 0.25) * 400% - (max(0.75, var(--progress)) - 0.75) * 400%));
     }
   }
 
   &[aria-valuenow="100"] {
     @include bg-color(accent);
+
     &::after {
-      @extend %icon, .icon-outline-check;
+      @extend %icon, .icon-outline-check !optional;
       min-height: 0;
       padding-bottom: 80%;
       width: 80%;

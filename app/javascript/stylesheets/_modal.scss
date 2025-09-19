@@ -25,19 +25,19 @@ dialog {
     display: none;
   }
 
-  & > h2 {
+  &>h2 {
     display: flex;
     justify-content: space-between;
     gap: spacer(4);
     align-items: flex-start;
 
     .close::after {
-      @extend %icon, .icon-x;
+      @extend %icon, .icon-x !optional;
       @include font-size(2);
     }
   }
 
-  & > footer {
+  &>footer {
     display: grid;
     gap: spacer(4);
 
