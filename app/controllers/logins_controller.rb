@@ -30,7 +30,15 @@ class LoginsController < Devise::SessionsController
 
     return respond_with_login_failure("An account does not exist with that email.") if @user.blank?
 
-    return respond_with_login_failure("Please try another password. The one you entered was incorrect.") unless @user.valid_password?(password)
+    # `valid_password?` may be private depending on included modules. Call it safely using `send`
+    # when necessary to avoid NoMethodError raised for private methods.
+    is_valid_password = if @user.respond_to?(:valid_password?, true)
+      @user.send(:valid_password?, password)
+    else
+      @user.valid_password?(password)
+    end
+
+    return respond_with_login_failure("Please try another password. The one you entered was incorrect.") unless is_valid_password
 
     return respond_with_login_failure("You cannot log in because your account was permanently deleted. Please sign up for a new account to start selling!") if @user.deleted?
 
@@ -50,11 +58,12 @@ class LoginsController < Devise::SessionsController
   end
 
   private
-    def respond_with_login_failure(message)
-      render json: { error_message: message }, status: :unprocessable_entity
-    end
 
-    def block_json_request
-      render json: {}, success: false, status: :bad_request if request.format.json?
-    end
+  def respond_with_login_failure(message)
+    render json: { error_message: message }, status: :unprocessable_entity
+  end
+
+  def block_json_request
+    render json: {}, success: false, status: :bad_request if request.format.json?
+  end
 end
