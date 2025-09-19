@@ -187,7 +187,8 @@ const config = {
   plugins: [
     webpackAssetsManifestPlugin,
     miniCssExtractPlugin,
-    new webpack.ProvidePlugin({ Routes: "$app/utils/routes" }),
+    // Temporarily disabled Routes ProvidePlugin
+    // new webpack.ProvidePlugin({ Routes: "$app/utils/routes" }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         configFile: path.join(rootPath, "tsconfig.json"),
