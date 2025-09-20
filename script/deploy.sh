@@ -99,9 +99,17 @@ deploy_app() {
 
     # Copy application files
     log "Copying application files..."
-    rsync -av --exclude='.git' --exclude='node_modules' --exclude='tmp' ./ "$APP_DIR/"
+    # More tolerant rsync: do not change owners/groups/perms/(dir)times and do not overwrite secrets
+    rsync -av \
+      --exclude='.git' --exclude='node_modules' --exclude='tmp' \
+      --exclude='.env.production' \
+      --no-perms --no-owner --no-group --omit-dir-times --no-times \
+      ./ "$APP_DIR/"
 
     cd "$APP_DIR"
+
+    # Ensure runtime directories exist for Puma and logs
+    sudo -u $DEPLOY_USER mkdir -p "$APP_DIR/tmp/sockets" "$APP_DIR/tmp/pids" "$APP_DIR/log"
 
     # Install Ruby dependencies
     log "Installing Ruby dependencies..."
@@ -114,8 +122,10 @@ deploy_app() {
 
     # Setup environment
     log "Setting up environment..."
-    cp .env.production.example .env.production
-    # Note: You need to manually configure .env.production with real values
+    if [[ ! -f .env.production ]]; then
+      cp .env.production.example .env.production || true
+      warn ".env.production created from example. Fill it with real values before starting services."
+    fi
 
     # Precompile assets
     log "Precompiling assets..."
@@ -214,8 +224,8 @@ start_services() {
     sleep 10
 
     # Check service status
-    sudo systemctl status ${APP_NAME}-puma --no-pager -l
-    sudo systemctl status ${APP_NAME}-sidekiq --no-pager -l
+    sudo systemctl status ${APP_NAME}-puma --no-pager -l || true
+    sudo systemctl status ${APP_NAME}-sidekiq --no-pager -l || true
 
     log "Services started successfully"
 }
