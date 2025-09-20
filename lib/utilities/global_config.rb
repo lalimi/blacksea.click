@@ -16,6 +16,45 @@ class GlobalConfig
       end
     end
 
+    # Retrieve multiline/secret values with support for *_FILE and *_BASE64 envs and "\n" unescaping.
+    # Priority:
+    #   1) NAME_FILE -> read file contents if file exists
+    #   2) NAME_BASE64 -> Base64 decode
+    #   3) NAME / credentials -> as-is
+    # After obtaining the value, all literal "\n" sequences will be converted to real newlines.
+    # @param name [String]
+    # @param default [Object]
+    # @return [String, Object, nil]
+    def get_multiline(name, default = :__no_default_provided__)
+      require "base64"
+
+      file_path = ENV["#{name}_FILE"]
+      raw_b64   = ENV["#{name}_BASE64"]
+
+      value = nil
+
+      if file_path.present? && File.file?(file_path)
+        value = File.read(file_path)
+      elsif raw_b64.present?
+        begin
+          value = Base64.decode64(raw_b64.to_s)
+        rescue StandardError
+          value = nil
+        end
+      else
+        value = get(name, default == :__no_default_provided__ ? :__no_default_provided__ : default)
+      end
+
+      # Convert escaped newlines to actual newlines if needed
+      value = value.to_s.gsub("\\n", "\n") if value.is_a?(String) && value.include?("\\n")
+
+      if default == :__no_default_provided__
+        value.presence
+      else
+        value.presence || default
+      end
+    end
+
     # Retrieve a nested value by joining the parts with double underscores
     # @param parts [Array<String>] The parts to join for the environment variable name
     # @param default [Object] The default value to return if the value is not found

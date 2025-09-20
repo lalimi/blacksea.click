@@ -10,9 +10,9 @@ class BankAccount < ApplicationRecord
 
   encrypt_with_public_key :account_number,
                           symmetric: :never,
-                          public_key: OpenSSL::PKey.read(GlobalConfig.get("STRONGBOX_GENERAL"),
+                          public_key: OpenSSL::PKey.read(GlobalConfig.get_multiline("STRONGBOX_GENERAL"),
                                                          GlobalConfig.get("STRONGBOX_GENERAL_PASSWORD")).public_key,
-                          private_key: GlobalConfig.get("STRONGBOX_GENERAL")
+                          private_key: GlobalConfig.get_multiline("STRONGBOX_GENERAL")
 
   alias_attribute :stripe_external_account_id, :stripe_bank_account_id
 

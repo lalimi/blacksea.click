@@ -17,14 +17,14 @@ class UserComplianceInfo < ApplicationRecord
 
   encrypt_with_public_key :individual_tax_id,
                           symmetric: :never,
-                          public_key: OpenSSL::PKey.read(GlobalConfig.get("STRONGBOX_GENERAL"),
+                          public_key: OpenSSL::PKey.read(GlobalConfig.get_multiline("STRONGBOX_GENERAL"),
                                                          GlobalConfig.get("STRONGBOX_GENERAL_PASSWORD")).public_key,
-                          private_key: GlobalConfig.get("STRONGBOX_GENERAL")
+                          private_key: GlobalConfig.get_multiline("STRONGBOX_GENERAL")
   encrypt_with_public_key :business_tax_id,
                           symmetric: :never,
-                          public_key: OpenSSL::PKey.read(GlobalConfig.get("STRONGBOX_GENERAL"),
+                          public_key: OpenSSL::PKey.read(GlobalConfig.get_multiline("STRONGBOX_GENERAL"),
                                                          GlobalConfig.get("STRONGBOX_GENERAL_PASSWORD")).public_key,
-                          private_key: GlobalConfig.get("STRONGBOX_GENERAL")
+                          private_key: GlobalConfig.get_multiline("STRONGBOX_GENERAL")
   serialize :verticals, type: Array, coder: YAML
 
   validate :birthday_is_over_minimum_age
